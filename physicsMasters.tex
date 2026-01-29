@@ -1,17 +1,19 @@
-%%
-%%  thesis_latex_template_minimal.tex
-%%
-%%  A minimal working example using the LaTeX classfile umassdthesis.cls
-%%  
-%%  Grant O'Rielly
-%%  grant.orielly@umassd.edu
-%%
 \documentclass[12pt,defaultstyle]{umassdthesis}
 
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
-\usepackage{graphicx}
-\usepackage{multirow,hhline,dcolumn} % useful commands for Tables
+\usepackage{graphicx, subcaption}
+\usepackage{float}
+\usepackage{hyperref}
+\hypersetup{
+colorlinks=true,
+linkcolor=,
+citecolor=blue
+}
+\urlstyle{same}
+\usepackage{multirow,hhline,dcolumn, booktabs} % useful commands for Tables
+\usepackage{natbib}
+\usepackage{amsmath, amssymb}
 %\usepackage[toc]{appendix}
 %\usepackage[pages]{appendix}
 
@@ -23,14 +25,14 @@
 %%  safely be excluded from the thesis, other are required.  LaTeX will
 %%  print a warning message if a required entry is not included.
 
-\title{Using the \LaTeX\ Thesis Class umassdthesis.cls}
+\title{An Adaptive Resolution Criterion for Magnetized Accretion Disk Simulations}
 
-\author{G.V.}{O'Rielly}
+\author{Parth}{Sastry}
 
-\dept{Department of}{Astronomy}
-\program{Astronomy}
-\college{College of}{Science}
-\conferraldate{January}{2019}
+\dept{Department of}{Physics}
+\program{Physics}
+\college{College of}{Engineering}
+\conferraldate{January}{2026}
 %%
 %%  select the degree being earned
 %%  \degree{FULL NAME}{ABBREVIATION}
@@ -40,13 +42,13 @@
 %\degree{Master of Arts}{M.A.}
 %\degree{Master of Art Education}{M.A.Ed.}
 %\degree{Master of Fine Arts}{M.F.A.}
-%\degree{Master of Science}{M.S.}
+\degree{Master of Science}{M.S.}
 
 %%  PhD dissertations have extra details such as the program name
 %%  and program label to allow for the EAS and BMBMT programs
 %%
-\degree{Doctor of  Philosophy}{Ph.D.}
-\phdprogram{PROGRAM NAME}{LABEL}
+%\degree{Doctor of  Philosophy}{Ph.D.}
+%\phdprogram{PROGRAM NAME}{LABEL}
 %%
 %%  defined Ph.D. programs -- 2019
 %%\phdprogram{Biomedical Engineering and Biotechnology}{BMEBT}
@@ -60,8 +62,8 @@
 %%
 %%  eg. \advisor{PROFESSORIAL TITLE}{NAME}{DEPARTMENT}{AFFILIATION}
 %%
-\advisor{Professor}{Ivan C. Starrs}%
-{Astronomy}{University of Massachusetts Dartmouth}
+\advisor{Professor}{Robert Fisher}%
+{Physics}{University of Massachusetts Dartmouth}
 %%
 %%  co-advisors are allowed ....
 %%  sometime the co-advisor "replaces" a reader but othertimes there are 
@@ -73,25 +75,25 @@
 %\coadvisor{Associate Professor}{Fred A. Dagg}%
 %{Physics}{University of Massachusetts Dartmouth}
 
-\readerone{Associate Professor}{Elizabeth Ohm Watt}%
-{Electrical and Computer Engineering}{University of Massachusetts Dartmouth}
+\readerone{Associate Professor}{Sarah Caudill}%
+{Physics}{University of Massachusetts Dartmouth}
 
-\readertwo{Assistant Professor}{Luke Skywalker}%
-{Jedi Studies }{Mos Eisley University}
+\readertwo{Assistant Professor}{Vadapalli Vijay Subrahmanya Varma}%
+{Mathematics}{University of Massachusetts Dartmouth}
 
 %%  for readers with no academic affiliation
 %%  the title, department entres are left empty and the affiliation entry
 %%  includes the full address with LaTeX formatting mark-up.
 
-\readerthree{}{Biggs Darklighter}%
-{}{Imperial Academy\\Tatooine }
+% \readerthree{}{Biggs Darklighter}%
+% {}{Imperial Academy\\Tatooine }
 
 %%  the rest of the entries on the signature page have a
 %%  professorial title and name (the affiliation will be UMASS DARTMOUTH)
 
-\graddirector{Allison L. Alembic}
-\deptchair{Barry I.G. Dipper}
-\collegedean{Jean VanderGheynst}
+\graddirector{Robert Fisher}
+\deptchair{Jianyi Jay Wang}
+\collegedean{Robert Griffin}
 \gradstudies{Tesfay Meressi}
 %%  this is for Honors (undergraduate) theses
 %\honorsdirector{Catherine Gardner}
@@ -113,21 +115,7 @@
 %%  that an abstract should use more than two pages, and many use just one page. 
 %%
 \abstract[short]{%
-  The file umassdthesis.cls is a modification of the standard \LaTeX\ thesis
-  class file.  This particular class file incorporates all of the requirements
-  of the University of Massachusetts Dartmouth for graduate level Master theses
-  and Ph.\ D.\ dissertations, as well as undergraduate Honors and senior theses.
-
-  The thesis or dissertation must contain an abstract -- a concise summary of
-  the thesis or dissertation intended to inform a prospective reader about its
-  contents.  It usually includes a brief description of the problem
-  investigated, the procedures or methods used, the findings, and the
-  conclusions.  It may use one or a few paragraphs; however, it is very rare
-  that an abstract should use more than two pages, and many use just one page.
-
-  The {\tt $\backslash$abstract} command for the umassdthesis class  has an
-  optional argument of {\tt long} for abstracts that go beyond a single page.
-  The default is {\tt short}.
+  Accretion is a fundamental source of energy in astrophysics, powering disks in systems ranging from moons to low-mass stellar binaries to disks around supermassive black holes at the centers of galaxies. Accretion is challenging to model accurately from first principles, making numerical simulations a key tool in investigating turbulent magnetohydrodynamic (MHD) fluctuations driven by the magneto-rotational instability (MRI). Resolving the critical length scale associated with this instability is essential to capturing its growth and dynamics. In this work, we utilize the multi physics code FLASH to model accretion disks in idealized two-dimensional simulations and adaptively refine our simulation domain using adaptive mesh refinement (AMR), based upon resolution of the MRI. We then compare the AMR simulations to simulations which uniformly resolve the computational domain everywhere, and thereby showcase the possible computational savings of utilizing AMR in future MRI simulations.
 %%  the emply line before the closing brace is REQUIRED to ensure that 
 %%  the formating of the abstract page is done correcty
 %%  !!DO NOT REMOVE THIS LINE!!
@@ -158,20 +146,25 @@
 %%  other investigator.
 %%
 %%  The acknowledgements should be written in a professional manner. When
-%%  writing the acknowledgments, be sure that your use of "person"ù is
+%%  writing the acknowledgments, be sure that your use of "person"ÔøΩ is
 %%  consistent.  If you begin with references to yourself as "the author",
 %%  continue to use third person throughout. If you begin with first person
 %%  ("I", "me", "my") use first person consistently.  There are two accepted
-%%  spellings of the word "acknowledgments"ù (the other is "acknowledgements");
+%%  spellings of the word "acknowledgments"ÔøΩ (the other is "acknowledgements");
 %%  be sure to spell this word consistently.
 %%
 \acknowledgements{%
-  Here's where you acknowledge all the people who helped you. It should
-  probably include your thesis advisor as well as the senior students and
-  post-docs who actually supervised your research project.  Short and sweet is
-  the best bet here, thank too many people and they're lost in the crowd.
-  Mentioning your family and friends at this point is always a good idea since
-  this is about as far as they'll ever get in reading your thesis. 
+I would like to profusely thank Professor Robert Fisher for guiding me through this work and for being as patient with me as an advisor could be. His encouragement in the face of personal hardship and his guidance as I switched fields from Physics to Oceanography has been invaluable.
+
+I am grateful also to my current advisor - Professor Amit Tandon for extending the opportunity to me to pursue my current Doctor of Philosophy project and for allowing me to pursue this project to its completion, in fact encouraging me to do so. I am supremely thankful for both these amazing mentors I have met on my graduate school journey.
+
+I would also like to thank Professor Sean Couch at Michigan State University who extended to us the opportunity to test out their group's version of the FLASH software in our initial exploration of what simulations were possible for this project. I would also extend my gratitude to the organizers of the NSF/APS-DPP GPAP Summer School in 2023, which was invaluable in my theoretical understanding of the field of plasma physics and magnetohydrodynamics in particular.
+
+I would like to thank Mark Ugalino and Vrutant Mehta for their guidance as I initially got acclimatized to the lab and the software I used, and for being excellent seniors in general. I also extend my sincere and frankly, insufficient, thanks to all the friends I have made in graduate school. I shall name Siddhant Kerhalkar, Debarshi Sarkar, Drake Ssempijja and Krut Patel in particular for their friendship through the journey of writing this thesis.
+
+I am most thankful, however, to my parents, without whose support and love none of this would be possible.
+
+This work utilized resources from Unity, a collaborative, multi-institutional high-performance computing cluster managed by UMass Amherst Research Computing and Data. Part of this work was conducted while I was supported by the Office of Naval Research (ONR) N00014-22-1-2012 grant to UMass Dartmouth MUST (3) program. 
 %%  the emply line before the closing brace is REQUIRED to ensure that 
 %%  the formating of the acknowledgments page is done correcty
 %%  !!DO NOT REMOVE THIS LINE!!
@@ -226,7 +219,7 @@
 %%  
 %%  The preface should be written in a professional manner. When writing the
 %%  acknowledgments, be sure that your use of "person" is consistent.  If you
-%%  begin with references to yourself as "the author"ù continue to use third
+%%  begin with references to yourself as "the author"ÔøΩ continue to use third
 %%  person throughout. If you begin with first person ("I", "me", "my"), use
 %%  first person consistently.  
 %%
@@ -297,7 +290,7 @@
 
 %%  set the format required for the citations/references
 %%  \bibliographystyle{unsrt} is preferred for UMassD theses & dissertations.
-\bibliographystyle{unsrt}
+\bibliographystyle{aasjournal}
 
 %%  The document text can be typed directly into this file or make use of
 %%  the LaTeX \input{filename} command to read the contents of the file
@@ -307,7 +300,10 @@
 %%  INSERT THESIS BODY HERE
 
 %%  Using the LaTeX \input command 
-%\input{introduction}
+\input{1-introduction}
+\input{2-simulationSetup}
+\input{3-results}
+\input{4-discussion}
 
 
 %%  Everything after this is an appendix
@@ -343,42 +339,10 @@
 %%
 \appendix
 
-\chapter{Additional Material
-\label{sample-appendix}}
+% \chapter{Additional Material
+% \label{sample-appendix}}
 
-\section{Introduction}
-\label{sample-appendix:introduction-section}
-
-This is a sample appendix. By adding the command $\backslash$appendix to the
-\LaTeX\ file before this file is included, the Table of Contents will
-reflect the appendical nature now attained. 
-
-\section{Appendictical Numbering}
-\label{sample-appendix:numbering-section}
-
-Appendices are labeled alphabetically rather than numerically as with chapters.
-Each is identified separately as ``Appendix A'', ``Appendix B'', and so forth. 
-
-\section{Getting the labels right \ldots}
-
-Sections in the first appendix will be labeled A.1, A.2 etc.  Similarly,
-subsections, equations, figures and tables will have a leading A.   This will
-be reflected in the Table of Contents, List of Figures and List of Tables in
-the prologue pages.
-
-
-
-\chapter{The Second Appendix}
-
-This is labeled Appendix B.
-
-\section{A Section} 
-
-Sections within this are labeled B.1
-
-\section{A Nother Section} 
-
-Additional sections are labeled B.2 \ldots
+% \chapter{The Second Appendix}
 
 
 
@@ -391,7 +355,7 @@ Additional sections are labeled B.2 \ldots
 %%  rather than double-spaced like the rest of the thesis text.
 
 \begin{singlespace}
-    \bibliography{thesis_example}
+    \bibliography{physicsMasters}
 \end{singlespace}
 
 

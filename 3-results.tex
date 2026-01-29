@@ -1,0 +1,227 @@
+\chapter{Results}
+\label{sec:results}
+
+We have five sets of simulations varying in their grid structure for a few initial field configurations and strengths. A summary of these is presented in Table \ref{tab:sims}.
+
+For the figures shown below, the appropriate comparisons to make are among the AMR and the corresponding uniform grid simulations, i.e among the AMR-lmax9 and the UG-level9 simulations since both those simulations have an equivalent maximum resolution ($\Delta R = \Delta z = 0.006836$). Likewise with the AMR-lmax8 and the UG-level8 simulations where the maximum resolution is $\Delta R = \Delta z = 0.013672$. The UG-level7 simulations are given as a lower limit on what underresolved simulations can look like.
+
+We run our simulations from time $t = 0$ to $t = 300$, corresponding to 8 orbits at the pressure maximum. We do not extend the simulations further due to observed instabilities in the highest resolution simulations once we enter the phase of evolution of the disk where we encounter MRI turbulence and the poloidal MRI is decaying.
+
+\cite{2000ApJ...528..462H} found, in their axisymmetric $2$D simulations with a single poloidal loop, that the poloidal MRI sets in around $t = 150$ and a period of turbulence follows, after which the poloidal field begins to die out. Thus, our simulations capture the period of the simulation during which we expect our adaptive resolution criterion to capture disk dynamics accurately - the growth phase of the poloidal MRI, and the shear amplification of the toroidal field.
+
+A slice of the simulation domain comparing density and the magnitude of the poloidal magnetic field at the final time, $t = 300$ in the simulation is shown for the singleloop-beta1000 simulation in Figure \ref{fig:slice}.
+
+While there are differences in evolution among all the different resolution classes - even among those that are meant to be comparable - of note is the similarity in the poloidal magnetic field magnitude and structure within the torus among comparable simulations.
+
+This is also borne out in the evolution of the disk poloidal magnetic energy with time, shown in global quantity plots in subsection \ref{subsec:global} - comparable simulations show the same MRI growth characteristics and the maximum field amplitude and energy.
+
+\begin{figure}[ht!] 
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \captionsetup{width=0.9\textwidth}
+        \includegraphics[width=\linewidth]{figures/singleloop-beta1000_l9_t-0400.pdf}
+        \caption{UG-level9.}
+        \label{fig:slice1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \captionsetup{width=0.9\textwidth}
+        \includegraphics[width=\linewidth]{figures/singleloop-beta1000_amrl9_t-0400.pdf}
+        \caption{AMR-lmax9. Note the similar magnetic field structure and magnitude.}
+        \label{fig:slice2}
+    \end{subfigure}
+
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \captionsetup{width=0.9\textwidth}
+        \includegraphics[width=\linewidth]{figures/singleloop-beta1000_l8_t-0400.pdf}
+        \caption{UG-level8. The lack of MRI growth in initially weakly magnetized sections of the torus is apparent.}
+        \label{fig:slice3}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \captionsetup{width=0.9\textwidth}
+        \includegraphics[width=\linewidth]{figures/singleloop-beta1000_amrl8_t-0400.pdf}
+        \caption{AMR-lmax8. Similar qualitatively and quantitatively to the UG-level8 simulation.}
+        \label{fig:slice4}
+    \end{subfigure}
+
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \captionsetup{width=\textwidth}
+        \includegraphics[width=\linewidth]{figures/singleloop-beta1000_l7_t-0400.pdf}
+        \caption{UG-level7. Note the lack of poloidal field amplification within the body of the torus.}
+    \end{subfigure}
+    \vspace{-1.5em}
+    \caption[Density and poloidal magnetic field magnitude slices at the end of the singleloop-beta1000 simulation.]{Density and poloidal magnetic field magnitude slices at the end of the singleloop-beta1000 simulation. Density is on the left and poloidal magnetic field magnitude is on the right.}
+    \label{fig:slice}
+\end{figure}
+
+\section{Global Quantities} \label{subsec:global}
+
+A useful quantitative measure of the progress of an accretion disk simulation is the amount of mass left on the grid, quantifying the amount of accretion that has occurred on to the central object (and mass lost due to outflow). This is shown in Figure \ref{fig:doubleloop-beta1000mass} for the doubleloop-beta1000 simulation, Figure \ref{fig:singleloop-beta1000mass} for the singleloop-beta1000 simulation, and Figure \ref{fig:singleloop-beta100mass} for the singleloop-beta100 simulation as a fraction of the initial mass on the grid. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/doubleloop-beta1000_mass.pdf}
+    \caption{Total mass on the simulation domain for the doubleloop-beta1000 simulation}
+    \label{fig:doubleloop-beta1000mass}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/singleloop-beta1000_mass.pdf}
+    \caption{Total mass on the simulation domain for the singleloop-beta1000 simulation}
+    \label{fig:singleloop-beta1000mass}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/singleloop-beta100_mass.pdf}
+    \caption{Total mass on the simulation domain for the singleloop-beta100 simulation}
+    \label{fig:singleloop-beta100mass}
+\end{figure}
+
+As expected, graphs for the total mass left on the grid for the comparable AMR and UG simulations show similar characteristics. Very notably, onset of accretion happens around the same time and the steady mass loss rate is similar for comparable simulations. Also as expected, the rate of the aforementioned mass loss is highest for simulations where the MRI is well-resolved and lowest for the UG-level7 simulation, where the MRI is least resolved. It is also apparent in Figure \ref{fig:singleloop-beta100mass} that the lowest resolution simulation saturates the MRI sooner as well, stopping accretion sooner than the other simulations.
+
+Another quantity relevant to the evolution of the MRI and the progress of the simulation is the poloidal magnetic energy, shown in Figures \ref{fig:doubleloop-beta1000poloidalmag}, \ref{fig:singleloop-beta1000poloidalmag} and \ref{fig:singleloop-beta100poloidalmag}. The maximum energy before decay provides an indicator of the saturation field, while the growth profile shows the growth of the poloidal MRI. While not relevant to where this adaptive resolution criterion should be used - during the growth phase of the poloidal MRI - interesting to note is that the decay of the poloidal field also matches well among the AMR and the corresponding uniform grid simulations. Of note is Figure \ref{fig:doubleloop-beta1000poloidalmag}, where the decay of the poloidal field agrees among comparable simulations.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/doubleloop-beta1000_poloidal_magnetic_energy.pdf}
+    \caption{Disk poloidal magnetic energy for the doubleloop-beta1000 simulation}
+    \label{fig:doubleloop-beta1000poloidalmag}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/singleloop-beta1000_poloidal_magnetic_energy.pdf}
+    \caption{Disk poloidal magnetic energy for the singleloop-beta1000 simulation}
+    \label{fig:singleloop-beta1000poloidalmag}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/singleloop-beta100_poloidal_magnetic_energy.pdf}
+    \caption{Disk poloidal magnetic energy for the singleloop-beta100 simulation}
+    \label{fig:singleloop-beta100poloidalmag}
+\end{figure}
+
+As \cite{2000ApJ...528..462H} observed in their corresponding singleloop-beta100 simulations, so do we note a period of poloidal field amplification due to the MRI from the beginning of the simulation, followed by a period of turbulence and decay of the poloidal field.
+
+Interesting to note is also the effect of initial magnetic field structure on the evolution of the simulation. As \cite{2011ApJ...738...84H} observed in their convergence studies, the two-loop simulations reach a higher poloidal magnetic energy and evolve faster than the corresponding single loop simulation. This is to be expected, initial field geometry - despite the same initial $\beta$ - leads to the one loop configuration having an initially weaker $B_z$, which leads to slower MRI growth and slower disk evolution. Thus, the doubleloop-beta1000 simulation showcases the growth of the MRI, subsequent short-lived MRI turbulence and decay all within the time of the simulation.
+
+We see that the AMR simulations scaling with $\lambda_\text{MRI}$ with a maximum resolution equivalent to the corresponding uniform grid simulations track global quantities like total mass and the poloidal magnetic energy (which is a measure of how the poloidal MRI has developed) about as well as the uniform grid simulations do, and better than the lower resolution uniform grid simulations - which seems to suggest that global disk properties are captured well with an adaptive resolution criterion as described, particularly during the phase of disk evolution that our simulations run over.
+
+
+\section{Radial Profiles} \label{subsec:radial}
+
+While useful, global disk quantities do not state anything about the spatial variation in relevant quantities. For this, we analyze the accretion stream in each of the simulations and compare the radial profiles of quantities of interest. 
+
+Radial profiles are computed via a $z-$average of the quantity in question within the disk midplane. For instance, if we were to look at any quantity of interest $Q$, $\langle Q \rangle(R)$ -
+
+\begin{equation}
+    \langle Q \rangle(R) = \frac{\int_{-H(R)}^{H(R)} Q \, \rho \, \text{d}z} {\int_{-H(R)}^{H(R)} \rho \, \text{d}z} 
+\end{equation}
+
+where $H(R)$ is the scale height of the disk as a function of radius. This is also computed via a $z-$average as -
+
+\begin{equation}
+    H(R) =  \frac{\int_{\chi > 0.1} \rho \, H \, \text{d}z}{\int_{\chi > 0.1} \rho \, \text{d}z}
+\end{equation}
+
+here, $H = \sqrt{2}c_s/\Omega$ is the scale height based on the isothermal sound speed and the $z-$average is computed over the entire simulation domain. Despite the density-weighting, this averaging is noisy due to averaging over the fluff. To account for this, we impose the same cutoff between the torus material and the fluff as we use for refinement - i.e we only average over grid cells where the disk scalar $\chi > 0.1$, which is what the subscript over the integral signifies.
+
+Shearing box results have shown that MRI turbulence has certain average magnetic properties that can be used as diagnostics. \citet{2011ApJ...738...84H} examined $\alpha_{\text{mag}} = M_{r\phi}/P_{\text{mag}} = -2B_RB_\phi/B^2$, the magnetic Shakura-Sunyaev alpha parameter which is the ratio of the Maxwell stress to the magnetic pressure as one such diagnostic. When suitably averaged over the computational domain, this quantity tends to approach specific values for well-resolved simulations.
+
+While we're not examining the convergence of this quantity to the value that would indicate well-resolved MRI turbulence, we examine radial profiles of the averaged $\alpha_\text{mag}$ to examine the similarity of the AMR simulations to the corresponding uniform grid simulations. This is shown for the singleloop-beta100 simulation, averaged over $t = 200$ to  $t=300$ in Figure \ref{fig:radialalpha-single100}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/singleloop-beta100_mag-alpha_profile_200.0_300.0.pdf}
+    \caption[Radial profile of the z-averaged $\alpha_\text{mag}$, averaged from $t=200$ to $t=300$ in the singleloop-beta100 simulation.]{Radial profile of the z-averaged $\alpha_\text{mag}$, averaged from $t=200$ to $t=300$ in the singleloop-beta100 simulation. Note the log scale, and the similar profiles for the AMR-lmax9 and UG-level9 profiles.}
+    \label{fig:radialalpha-single100}
+\end{figure}
+
+The same plots for the singleloop-beta1000 and doubleloop-beta1000 simulations are shown in Figures \ref{fig:radialalpha-single1000} and \ref{fig:radialalpha-double1000}. The figures all show agreement between comparable AMR and uniform grid simulations, while highlighting differences between simulations with different refinement levels.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/singleloop-beta1000_mag-alpha_profile_200.0_300.0.pdf}
+    \caption[Radial profile of the z-averaged $\alpha_\text{mag}$, averaged from $t=200$ to $t=300$ in the singleloop-beta1000 simulation.]{Radial profile of the z-averaged $\alpha_\text{mag}$, averaged from $t=200$ to $t=300$ in the singleloop-beta1000 simulation. Note the stark drop-off in integrated $\alpha_\text{mag}$ at the outer edges of the torus in the lesser refined simulations.}
+    \label{fig:radialalpha-single1000}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/doubleloop-beta1000_mag-alpha_profile_200.0_300.0.pdf}
+    \caption[Radial profile of the z-averaged $\alpha_\text{mag}$, averaged from $t=200$ to $t=300$ in the doubleloop-beta1000 simulation.]{Radial profile of the z-averaged $\alpha_\text{mag}$, averaged from $t=200$ to $t=300$ in the doubleloop-beta1000 simulation. The agreement between comparable AMR and UG simulations and contrast among simulations with different refinement levels is more prominent at the inner edges of the torus.}
+    \label{fig:radialalpha-double1000}
+\end{figure}
+
+\section{Computational Benefit}
+\label{subsec:computation}
+
+To quantitatively analyze the computational benefits afforded by utilizing Adaptive Mesh Refinement, we compare the number of cells in the computational domain as a function of time among comparable AMR and UG simulations for different simulations. The net benefit can be quantified by comparing the total number of cell advances among comparable simulations, defined as the integral of the total number of cells against timesteps.
+
+These plots are shown for the singleloop-beta100 simulation in Figure \ref{fig:timesteps-singleloop100} with comparison among the comparable simulations of refinement level 8 (UG-level8 and AMR-lmax8) in \ref{subfig:timesteps-singleloop100-8} while comparison among the comparable simulations of refinement level 9 is shown in \ref{subfig:timesteps-singleloop100-9}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/cellCount_singleloop-beta100_level8.pdf}
+        \caption{Comparison among AMR and UG simulations with refinement level 8}
+        \label{subfig:timesteps-singleloop100-8}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/cellCount_singleloop-beta100_level9.pdf}
+        \caption{Comparison among AMR and UG simulations with refinement level 9}
+        \label{subfig:timesteps-singleloop100-9}
+    \end{subfigure}
+    \caption{Number of cells against time for the singleloop-beta100 simulation}
+    \label{fig:timesteps-singleloop100}
+\end{figure}
+
+The same figures for the singleloop-beta1000 and doubleloop-beta1000 simulations are shown in Figures \ref{fig:timesteps-singleloop1000} and \ref{fig:timesteps-doubleloop1000}. Overall, these highlight the factor $\sim 2 - 3$ decrease in number of cell advances required to achieve comparable simulation results (as seen via our metrics in \ref{subsec:global} and \ref{subsec:radial}) when utilizing AMR versus uniform grid simulations. We re-iterate here that our simulations are conducted in 2D axisymmetry. The computational benefits when utilizing a suitable refinement scheme in full 3D simulations will be even greater.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/cellCount_singleloop-beta1000_level8.pdf}
+        \caption{Comparison among AMR and UG simulations with refinement level 8}
+        \label{subfig:timesteps-singleloop1000-8}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/cellCount_singleloop-beta1000_level9.pdf}
+        \caption{Comparison among AMR and UG simulations with refinement level 9}
+        \label{subfig:timesteps-singleloop1000-9}
+    \end{subfigure}
+    \caption{Number of cells against time for the singleloop-beta1000 simulation}
+    \label{fig:timesteps-singleloop1000}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/cellCount_doubleloop-beta1000_level8.pdf}
+        \caption{Comparison among AMR and UG simulations with refinement level 8}
+        \label{subfig:timesteps-doubleloop1000-8}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/cellCount_doubleloop-beta1000_level9.pdf}
+        \caption{Comparison among AMR and UG simulations with refinement level 9}
+        \label{subfig:timesteps-doubleloop1000-9}
+    \end{subfigure}
+    \caption{Number of cells against time for the doubleloop-beta1000 simulation}
+    \label{fig:timesteps-doubleloop1000}
+\end{figure}

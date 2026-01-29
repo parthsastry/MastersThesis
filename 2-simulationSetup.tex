@@ -1,0 +1,225 @@
+\chapter{Simulation Setup}
+\label{sec:simulation}
+
+\pagenumbering{arabic} 
+
+Our simulation setup is similar to that of the GT2 global torus setup used by \citet{2000ApJ...528..462H}. We solve the equations of non-relativistic ideal MHD in axisymmetric $2.5$D cylindrical coordinates $(R, \phi, z)$ (see \ref{subsec:dimension} for notes on simulation dimensionality). Written in non-dimensional form (without $4\pi$ and $\mu_0$ coefficients), these are
+
+\begin{equation}\label{eqn:mass}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{v}) = 0
+\end{equation}
+\begin{equation}\label{eqn:momentum}
+    \frac{\partial \rho\vec{v}}{\partial t} + \nabla \cdot \left( \rho \vec{v}\vec{v} - \vec{B}\vec{B}\right) + \nabla p_{*} = -\rho \nabla \Phi
+\end{equation}
+\begin{equation}\label{eqn:energy}
+    \frac{\partial \rho E}{\partial t} + \nabla \cdot \left(\vec{v} \left( \rho E + p_{*} \right) - \vec{B}\left(\vec{v} \cdot \vec{B} \right) \right) = -\rho \vec{v} \cdot \nabla\Phi
+\end{equation}
+\begin{equation}\label{eqn:mag}
+    \frac{\partial \vec{B}}{\partial t} = \nabla \cdot ( \vec{B}\vec{v} - \vec{v}\vec{B} )
+\end{equation}
+
+where
+
+\begin{equation}\label{eqn:defp*}
+    p_* = p + \frac{B^2}{2}
+\end{equation}
+\begin{equation}\label{eqn:defE}
+    E = \frac{1}{2}v^2 + \epsilon + \frac{1}{2}\frac{B^2}{\rho}
+\end{equation}
+%
+%and the symbols have their usual meanings.
+
+Here $\rho$ is the mass density, $\vec{v}$ is the fluid velocity, $p$ is the fluid pressure, $\vec{B}$ is the nondimensional magnetic field vector, $\epsilon$ is the specific internal energy, and $\Phi$ is the gravitational potential.
+
+The equations used above utilize Heaviside-Lorentz normalization. The magnetic field vector as mentioned in the system of equations above is related to the magnetic field vector in the cgs system of units as -
+
+\begin{equation}
+    \vec{B} = \frac{\vec{B}_{\rm cgs}}{\sqrt{4\pi}}
+\end{equation}
+
+We utilize an adiabatic equation of state $p = \rho \epsilon( \Gamma - 1)$ with $\Gamma = 5/3$, and as in \citet{2000ApJ...528..462H}, ignore radiation transport and losses. The Reynolds Number $\mbox{\textit{Re}} = uL/\nu$ in astronomical accretion disks is massive (of the order of $\sim 10^{10}$) and thus, we do not include a molecular viscosity term in equations \ref{eqn:momentum} and \ref{eqn:energy}. This is backed by analysis in \citet{1974MNRAS.168..603L} and \citet{1981ARA&A..19..137P}, which concludes that molecular viscosity plays a negligible role in angular momentum transport outwards and thus, the dynamical evolution of the accretion disk.
+
+To approximate the gravitational potential of a compact, non-rotating object, we use a pseudo-Newtonian potential \citep{1980A&A....88...23P}.
+
+\begin{equation}
+    \Phi = - \frac{GM}{r - r_g}
+\end{equation}
+%
+where $r$ is the spherical radius and $r_g$ is the "gravitational radius". The Keplerian specific angular momentum for such a potential is given by
+
+\begin{equation}
+    l = (GMr)^{1/2} \frac{r}{r - r_g}
+\end{equation}
+%
+with $\Omega = l/R^2$, $R$ being the cylindrical radius. As in \citet{2000ApJ...528..462H}, we use simulation units where $r_g = 1$ and $GM = 1$, and excise the center of the cylindrical coordinate system by setting an outflow boundary condition at $R = 1.5$, which avoids singularities associated with $\Phi$ at $r \rightarrow 1$. A snapshot of the computational domain and the initial conditions used for the torus is shown in Figure \ref{fig:init-density}.
+
+Equations \ref{eqn:mass}, \ref{eqn:momentum}, \ref{eqn:energy} and \ref{eqn:mag} are solved using a directionally unsplit, staggered mesh solver \citep{2009JCoPh.228..952L, 2013JCoPh.243..269L}, implemented in the multiphysics code FLASH 4.2 \citep{2000ApJS..131..273F, 2008PhST..132a4046D}. We use second order data reconstruction to compute the cell-interface values in the half time step and use the HLLC (Harten-Lax-van Leer-Contact) Riemann solver \citep{1994ShWav...4...25T} as implemented in FLASH.
+
+\citet{2013ApJ...772..102H} explored convergence of global disk simulations by looking at systematic quantities of interest like the quality factors $\langle Q_z \rangle$, $\langle Q_\phi \rangle$ and quantities that parametrize the accretion rate and the stress development due to turbulence, $\langle \alpha_\text{SS} \rangle = \tau_{r\phi}/P$ (the Shakura-Sunyaev alpha \citep{1973A&A....24..337S}) and $\alpha_\text{mag} = \tau_{r\phi}/P_\text{mag}$. While our $2$D axisymmetric simulations do not have sustained MHD turbulence and do not capture toroidal field amplification due to the MRI (see \ref{subsec:dimension} for more on dimensionality), these quantities, along with global quantities like the poloidal magnetic energy, total disk mass, accretion rate, etc. offer a quantitative way to assess the closeness of the AMR simulations with the maximally refined uniform grid simulation, which is taken to be the fiducial run for our simulations.
+
+\section{Initial Conditions} \label{subsec:init-cond}
+
+We are concerned with the dynamical evolution of accretion tori subject to the magnetorotational instability (MRI). As such, the initial torus has to be hydrostatically stable, with internal pressure gradients balancing out the gravitational and centrifugal acceleration terms. The initial torus is assumed to be an axisymmetric, constant specific angular momentum torus as described in \citet{1984MNRAS.208..721P}. This describes the density of the torus as a function of position
+
+\begin{equation}\label{eqn:pptorus}
+    \frac{\Gamma K p}{(\Gamma - 1)\rho} = C - \Phi - \frac{1}{(2q - 2)}\frac{l^2}{R^{2q-2}}
+\end{equation}
+
+where, for the case of constant specific angular momentum, $q = 2$. $C$ is a constant of integration defining the zero pressure boundary of the torus, which can be set via the inner boundary of the torus, $R_{\text{in}}$. The only other parameter we need to fully describe the torus is the location of the pressure maximum, which \citet{2000ApJ...528..462H} defines as $R_{\text{Kep}}$, which is the distance at which an isolated particle with the given constant specific angular momentum would rotate in a circular orbit.
+
+Our simulations are conducted in $2.5$-D axisymmetry. The computational domain extends from $(1.5, 15.5)$ in $R$ and $(-7, 7)$ in $z$. We set the inner boundary of the torus $R_{\text{in}} = 3$ and $R_{\text{Kep}} = 4.7$ in code units. The value of the constant $K$ is set via defining the value of the density at the density maximum $\rho_{\text{max}} = 10$.
+
+Our boundary conditions along the $R$ and $z$ boundaries are outflow and periodic in $\phi$. With $2.5$-D geometry, we utilize a single grid cell to cover the entire $(0, 2\pi)$ domain in $\phi$, which basically imposes axisymmetry at all times. This makes sure that we can look at the evolution of quantities in the $\phi$-direction, such as the toroidal magnetic field component $B_\phi$, but these quantities remain constant across $\phi$.
+
+The hydrodynamics solver in FLASH requires some floor value of density on the entire grid. Thus, the region outside the torus is composed of a hot, low density "fluff" material. This fluff has to have low density so as to allow almost free expansion and outflow of the torus material through the computational domain.. However the density cannot be too low, otherwise we will get timestep-limited by the fluff, owing to the low sound-crossing times in the fluff. The density profile of the fluff is set via assuming a density contrast of $10^{-4}$ between the torus maximum density and the fluff density, leading to a fluff density of the order of $10^{-3}$.
+
+The ambient pressure of the fluff is in pressure balance with the torus at the outer edge. The density transition between the torus and the fluff is smooth and the fluff is assumed to match the composition of the torus, to avoid composition gradients at the boundaries. A snapshot of the initial density profile across the computational domain is given in Figure \ref{fig:init-density}
+
+For the magnetic field, we utilize two initial field configurations with two different average field strengths for our simulations. The first is a standard dipole loop, hereafter called the "single loop" configuration, where the vector potential is of the form
+
+\begin{equation}\label{eqn:dipolefield}
+    A_{\phi} = A_0(\rho - \rho_{\text{cut}})
+\end{equation}
+
+The second field configuration is the "double loop" configuration as described by \citet{2008ApJ...687L..25S}. The vector potential takes the form
+
+\begin{equation}\label{eqn:doubleloop}
+    A_{\phi} = A_0 \left[ \left( \rho - \rho_{\text{cut}} \right) r^{0.75} \right]^2 \sin{\left[ \ln{(r/S)}/T \right]}
+\end{equation}
+
+$\rho_{\text{cut}}$ defines the density cut-off beyond which the magnetic field is identically zero, i.e., $A_0 = 0$, if $\rho < \rho_{\text{cut}}$. $r$ is the spherical radius, $S = 1.1 R_\text{in} = 3.3$ and $T = 0.16$. For both the configurations, our simulations utilize a $\rho_\text{cut} = 0.2\rho_\text{max}$, thereby constraining the poloidal field loops well within the torus boundary.  The simulations are labelled singleloop and doubleloop respectively.
+
+The constant $A_0$ is set via an initial value of the plasma-$\beta$ in the torus, which is the ratio of the volume-integrated gas pressure to the volume-integrated magnetic pressure within the torus. We use $\beta = 100, 1000$ for the singleloop simulations and $\beta = 1000$ for the doubleloop simulations.  These field configurations have an impact on resolution of the MRI and the particular AMR criterion used for refinement, which we will discuss in \ref{subsec:grid}
+
+\section{Grid Structure} \label{subsec:grid}
+For each of the field configurations and $\beta$ values mentioned above, we perform five sets of simulations which vary in the structure of the computational grid. There are three uniform grid simulations, with grid resolutions of $N_R \times N_z = 512 \times 512$ ($\Delta R = \Delta z = 0.027344$), $N_R \times N_z = 1024 \times 1024$ ($\Delta R = \Delta z = 0.013672$) and $N_R \times N_z = 2048 \times 2048$ ($\Delta R = \Delta z = 0.006836$) hereafter referred to as UG-level7, UG-level8 and UG-level9 simulations respectively. Here, $N_R$ and $N_z$ refer to the number of grid points in the $R$ and $z$ directions over the entire domain.
+
+The final two simulations are performed using an adaptively refined grid, which have resolutions varying from $N_R \times N_z = 64 \times 64$ ($\Delta R = \Delta z = 0.21875$) at the lowest level (referred to as level 4) to $N_R \times N_z = 1024 \times 1024$ ($\Delta R = \Delta z = 0.013672$) for the AMR-lmax8 simulation and $N_R \times N_z = 2048 \times 2048$ ($\Delta R = \Delta z = 0.006836$) for the AMR-lmax9 simulation. These simulations should be compared against the uniform grid simulations corresponding to their maximal resolution. See Table \ref{tab:sims} for a summary of all simulations.
+
+The AMR package used in FLASH is PARAMESH \citep{2000CoPhC.126..330M}, which uses a block-structured AMR scheme (see also \citet{1984JCoPh..53..484B}, \citet{1989JCoPh..82...64B} and \citet{1993JCoPh.104...56D}). All cells within a block exist at the same refinement level, and adjacent blocks may differ only by a single refinement level. The refinement level of a block is contingent upon a defined criterion. For our purpose of looking at the dynamical evolution of an accretion torus, we chose to refine by looking at the quality factor $Q_z$ within the block.
+
+%Moved to intro
+%Because the magnetorotational instability (MRI) is the driver of angular momentum transport, and thus what drives the dynamical evolution of the torus, it has long been understood that resolving the fastest-growing MRI mode is important for simulations to accurately capture disk dynamics. Through shearing box simulations, \cite{2004ApJ...605..321S} found that to resolve MHD turbulence driven by the MRI, one needs to have $\langle \langle \lambda_{\text{MRI}}^2 \rangle \rangle^{1/2} \gtrsim 6 \Delta$, where $\Delta$ is the grid size, and the double brackets indicate a volume and time average. Simulations that meet this criteria accurately capture the linear growth of the fastest-growing mode as well as the saturation limits of the magnetic field.
+
+%The MRI wavelength $\lambda_{\text{MRI}}$ is calculated from the vertical component, because the fastest growing axisymmetric mode is characterized by the vertical magnetic field (\cite{1991ApJ...376..214B}), i.e.,
+
+%\begin{equation} \label{eqn:lambdamri}
+%    \langle \lambda_{\text{MRI}}^2 \rangle = 2\pi \frac{\langle v_{\text{A}z}^2 \rangle}{\Omega} = \frac{2\pi}{\Omega} \left( \frac{\langle B_{z}^2 \rangle }{4 \pi \rho} \right)^{1/2}
+%\end{equation}
+
+%This is the same criteria we apply to the Adaptive Mesh Refinement routine in our simulations. 
+
+Our initial field configurations are those consisting of poloidal field loops, which means that there are magnetized regions in the torus where we cannot resolve $\lambda_\text{MRI}$ (regions where $B_z \rightarrow 0$). In the alternate scenario of a uniform vertical magnetic field $B_z$ threading the torus, it is possible to resolve $\lambda_\text{MRI}$ throughout the torus at the initial time step, but as do other modern simulations of accretion tori \citep{2024ApJ...973..103C, 2019MNRAS.482.3373F}, we initialize the magnetic field with these poloidal field loops, representing a more physical scenario.
+
+We initially describe a mass scalar $\chi$, which is a field variable advected with density, and set this field to a value of $1$ inside the torus and $0$ outside, in the fluff. We create this separation by setting the boundary between the torus and the fluff at a threshold density of $10^{-4}$ times $\rho_\text{max}$ (see Figure \ref{fig:init-density}). We then advect this scalar field according to
+
+\begin{equation}\label{eqn:masscalar}
+    \frac{\partial \rho \chi}{\partial t} + \nabla \cdot \left( \rho \chi \vec{v} \right) = 0
+\end{equation}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/density.pdf}
+    \caption{Initial density profile of the torus, with a red contour line demarcating the boundary between the disk ($\chi = 1$) and the fluff ($\chi = 0$)}
+    \label{fig:init-density}
+\end{figure}
+
+At later times, the value of the mass scalar $\chi$ represents how much of a grid cell's contents are composed of material from the initial torus. Since we are mainly concerned with the disk dynamics, we set a threshold value $\chi_{\text{min}} = 0.1$. If a block doesn't contain any cells with $\chi > \chi_{\text{min}}$, that block will not be refined. For blocks containing cells with $\chi > \chi_{\text{min}}$, we look at the quality factor $Q_z$ of those cells
+
+\begin{equation}\label{eqn:qz}
+    Q_z = \frac{\lambda_{\text{MRI}}}{\Delta z} = 2\pi \frac{\vert v_{\text{A}z} \vert}{\Omega\Delta z}
+\end{equation}
+
+If there exists a grid cell within the block with $Q_z < 6$, we increase the refinement level of the block, doubling the resolution of the block (and increasing the number of cells within the block by a factor of $2^D$ where $D$ is the simulation dimensionality. For our simulations $D = 2$).
+
+A slice plot highlighting how our MRI-AMR criterion refines the grid at the initial time step is shown in Figure \ref{fig:grid} for the doubleloop-beta1000 simulation. This is plotted for the AMR-lmax9 simulation. Because the field is constrained within a field loop initially, we have to maximally refine regions of the torus with $\rho < \rho_\text{cut}$ (outside the field loop, but within the torus boundary), where $B_z$ and thus, $\lambda_\text{MRI}$ is 0.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.8\textwidth}
+        \centering
+        \captionsetup{width=\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/AMRlmax9_grid.pdf}
+        \caption{\footnotesize Block structure as defined by our resolution criteria at the initial time step of the doubleloop-beta1000 simulation, for a maximum resolution level of 9, overlaid on the poloidal magnetic field magnitude. Note that each block is an $8 \times 8$ grid of cells.}
+        \label{subfig:doubleloop-beta1000-fullGrid-AMRlmax9}
+    \end{subfigure}%
+
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \captionsetup{width=0.9\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/level9_grids.pdf}
+        \caption{\footnotesize Grid structure at the edge of the torus in the UG-level9 simulation. Note that the individual unit in this figure is a single cell.}
+        \label{subfig:UG-level9-torusedge}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \captionsetup{width=\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/AMRlmax9_grids.pdf}
+        \caption{\footnotesize Grid structure at the edge of the torus in the AMR-lmax9 simulation, highlighting lower refinement outside the torus.}
+        \label{subfig:AMR-lmax9-torusedge}
+    \end{subfigure}
+    \vspace{-1em}
+    \caption{Grid structure}
+    \vspace{-2.5em}
+    \begin{flushright}
+    \footnotesize
+        (cont. on next page)
+    \end{flushright}
+\end{figure}
+
+\begin{figure}[ht!]\ContinuedFloat
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \captionsetup{width=1.5\textwidth}
+        \includegraphics[width=\textwidth]{figures/AMRlmax9_zoomedgrid.pdf}
+        \caption{\footnotesize Grid structure at center of the torus in the AMR simulation, highlighting lower refinement in regions of the torus where the magnetic field is largely vertical and the quality factor is high.}
+        \label{subfig:AMR-lmax9-toruscenter}
+    \end{subfigure}
+    \caption{(cont.)}
+    \label{fig:grid}
+\end{figure}
+
+\begin{table}[hbt!]
+\centering
+\caption{Summary of simulations performed}
+\label{tab:sims}
+\normalsize
+\begin{tabular}{c|c|c|c|c}\toprule
+       Simulation & Field Type & 
+       $\langle \beta \rangle_\text{initial}$ &
+       Resolution Class &
+       $N_R = N_z$ \\\midrule
+        \multirow{5}{*}{\texttt{doubleloop-beta1000}} & \multirow{5}{*}{Double loop} & \multirow{5}{*}{1000} & \texttt{UG-level7} & 512 \\
+        & & & \texttt{UG-level8} & 1024 \\
+        & & & \texttt{UG-level9} & 2048 \\
+        & & & \texttt{AMR-lmax8} & 64-1024 \\
+        & & & \texttt{AMR-lmax9} & 64-2048 \\ 
+        \hline
+        \multirow{5}{*}{\texttt{singleloop-beta1000}} & \multirow{5}{*}{Dipole one-loop} & \multirow{5}{*}{1000} & \texttt{UG-level7} & 512 \\
+        & & & \texttt{UG-level8} & 1024 \\
+        & & & \texttt{UG-level9} & 2048 \\
+        & & & \texttt{AMR-lmax8} & 64-1024 \\
+        & & & \texttt{AMR-lmax9} & 64-2048 \\
+        \hline
+        \multirow{5}{*}{\texttt{singleloop-beta100}} & \multirow{5}{*}{Dipole one-loop} & \multirow{5}{*}{100} & \texttt{UG-level7} & 512 \\
+        & & & \texttt{UG-level8} & 1024 \\
+        & & & \texttt{UG-level9} & 2048 \\
+        & & & \texttt{AMR-lmax8} & 64-1024 \\
+        & & & \texttt{AMR-lmax9} & 64-2048 \\\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Simulation Dimensionality} \label{subsec:dimension}
+
+Our simulations are conducted in "$2.5$D" axisymmetric cylindrical geometry, which means that there are the usual three nonzero field components (in $R$, $\phi$ and $z$ directions) for the vectors in equations \ref{eqn:mass}, \ref{eqn:momentum}, \ref{eqn:energy} and \ref{eqn:mag} ($\vec{v}$ and $\vec{B}$), but the azimuthal derivative $\partial/\partial\phi$ of any field quantity is zero.
+
+While not affording the same level of accuracy as three-dimensional simulations, the axisymmetric approximation tracks the three-dimensional simulations quite well, especially in the initial stages of torus evolution, which are dominated by axisymmetric dynamics like toroidal field generation due to shear and linear growth of the poloidal MRI (\cite{2000ApJ...528..462H}).
+
+A limitation of the axisymmetric approximation is that the initial poloidal field cannot be maintained over long periods due to Cowling's antidynamo theorem \citep{1933MNRAS..94...39C}. After the MRI in our simulations is saturated, the poloidal field begins to die out, and the magnetic energies decline.
+
+One approach to capturing accurate long-term accretion disk evolution even in axisymmetry in an attempt to sidestep Cowling involves incorporating a subgrid mean field dynamo calibrated to capture 3D dynamics \citep{sadowskietal15}. However, accurately calibrating the mean field dynamo subgrid model is challenging, and is the subject of ongoing work \citep{PhysRevD.111.023040}. 
+
+Because three-dimensional simulations couple the poloidal and toroidal fields, along with growing the non-axisymmetric modes of the MRI, there ceases to exist a single length scale of interest that we can track and the AMR criterion will have to change according to what convergence studies deem appropriate levels of resolution. 
+
+Comments on the resolution and the AMR criteria required to capture nonlinear effects in MHD turbulence and growth of the non-axisymmetric MRI modes in $3$D MHD are out of the scope of this thesis. We solely seek to explore whether scaling the resolution of $2$D axisymmetric simulations via looking at $Q_z$ captures disk dynamics at reasonable levels of accuracy compared to the corresponding uniform grid simulations. However, based on the convergence of the AMR simulations to the uniform grid simulations in this thesis, it is likely that AMR simulations where we scale the refinement level depending on resolutions that convergence studies deem necessary would reasonably track the highest resolution uniform grid simulations even in three dimensions.
